@@ -1,0 +1,55 @@
+{
+  "name": "singlecrypt",
+  "version": "1.0.0",
+  "author": "Stefan Samson <ss42701@outlook.com> (https://ssbit01.github.io/)",
+  "repository": "github:SSbit01/singlecrypt",
+  "main": "index.js",
+  "bugs": {
+    "url": "https://github.com/SSbit01/singlecrypt/issues"
+  },
+  "description": "A simple, secure and fast symmetric encryption library that makes use of AES-GCM.",
+  "engines": {
+    "bun": ">=1.1.22"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "homepage": "https://github.com/SSbit01/singlecrypt#readme",
+  "keywords": [
+    "aes",
+    "browser",
+    "bun",
+    "counter",
+    "crypt",
+    "crypto",
+    "decrypt",
+    "decryption",
+    "encrypt",
+    "encryption",
+    "fast",
+    "galois",
+    "gcm",
+    "key",
+    "quantum",
+    "safe",
+    "simple",
+    "subtle",
+    "symmetric",
+    "type",
+    "types"
+  ],
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "test": "bun test",
+    "build:types": "tsc",
+    "build": "bun build ./index.js --minify --outdir ./dist --entry-naming [dir]/[name].min.[ext]"
+  },
+  "type": "module",
+  "types": "index.d.ts",
+  "devDependencies": {
+    "@types/bun": "^1.2.22",
+    "typescript": "^5.9.2"
+  }
+}
