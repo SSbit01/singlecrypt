@@ -14,7 +14,7 @@ AES-GCM is extremely fast on modern CPUs, which have dedicated hardware accelera
 Using `bun`:
 
 ```shell
-bun i singlecrypt
+bun add singlecrypt
 ```
 
 ## Methods
