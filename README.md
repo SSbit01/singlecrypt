@@ -9,9 +9,17 @@ A simple, secure, and fast symmetric encryption library that makes use of [AES-G
 
 AES-GCM is extremely fast on modern CPUs, which have dedicated hardware acceleration ([AES-NI](https://en.wikipedia.org/wiki/AES_instruction_set)), in addition to being highly secure and even quantum-resistant (AES-128-GCM).
 
-## Documentation
+## Installation
 
-### `createSymmetricCryptoKey`
+Using `bun`:
+
+```shell
+bun i singlecrypt
+```
+
+## Methods
+
+#### `createSymmetricCryptoKey`
 
 Creates a symmetric `CryptoKey` object to be used in the following methods. It takes two parameters:
 
