@@ -7,7 +7,7 @@ A simple, secure, and fast symmetric encryption library that makes use of [AES-G
 
 ## Why AES-GCM?
 
-AES-GCM is extremely fast on modern CPUs, which have dedicated hardware acceleration ([AES-NI](https://en.wikipedia.org/wiki/AES_instruction_set)), in addition to being highly secure and even quantum-resistant (AES-128-GCM).
+AES-GCM is extremely fast on modern CPUs, which have dedicated hardware acceleration ([AES-NI](https://en.wikipedia.org/wiki/AES_instruction_set)), in addition to being highly secure and even quantum-resistant (AES-256-GCM).
 
 ## Installation
 
@@ -21,12 +21,12 @@ bun add singlecrypt
 
 #### `createSymmetricCryptoKey`
 
-Creates a symmetric `CryptoKey` object to be used in the following methods. It takes two parameters:
+Creates a symmetric `CryptoKey` object to be used in the following methods. This method also converts your value key to a SHA-256 hash. It takes two parameters:
 
 1. A string key to be hashed. A 32-byte random string is recommended.
 2. A `TextEncoder` instance, if you want to reuse it (optional).
 
-Returns a `Promise<CryptoKey>`.
+Returns a `Promise<CryptoKey>` containing a SHA-256 hash used to encrypt and decrypt strings.
 
 A `TypeError` may be thrown if there are problems with the string key.
 
@@ -72,15 +72,23 @@ import {
 } from "singlecrypt";
 
 
-const userCryptoKey = await createSymmetricCryptoKey(process.env.KEY_USER);
+const userCryptoKey = await createSymmetricCryptoKey(
+  process.env.KEY_USER
+);
 
 
 export async function encryptUserId(value: string) {
-  return await encryptSymmetrically(value, userCryptoKey);
+  return await encryptSymmetrically(
+    value,
+    userCryptoKey
+  );
 }
 
 export async function decryptUserId(value: string) {
-  return await decryptSymmetrically(value, userCryptoKey);
+  return await decryptSymmetrically(
+    value,
+    userCryptoKey
+  );
 }
 ```
 
@@ -104,11 +112,19 @@ const userCryptoKey = await createSymmetricCryptoKey(
 
 
 export async function encryptUserId(value: string) {
-  return await encryptSymmetrically(value, userCryptoKey, textEncoder);
+  return await encryptSymmetrically(
+    value,
+    userCryptoKey,
+    textEncoder
+  );
 }
 
 export async function decryptUserId(value: string) {
-  return await decryptSymmetrically(value, userCryptoKey, textDecoder);
+  return await decryptSymmetrically(
+    value,
+    userCryptoKey,
+    textDecoder
+  );
 }
 ```
 

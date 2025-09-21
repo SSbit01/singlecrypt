@@ -7,10 +7,11 @@ const keyUsages = ["encrypt", "decrypt"]
 
 /**
  * Before encrypting and decrypting values, a symmetric `CryptoKey` must be created.
+ * This method also converts your value key to a SHA-256 hash.
  * 
  * @param   {string}             value         - String key to be hashed. A 32-byte random string is recommended.
  * @param   {TextEncoder}        [textEncoder] - If you have an instance of a `TextEncoder`, you can reuse it.
- * @returns {Promise<CryptoKey>} A `CryptoKey` used to encrypt and decrypt strings.
+ * @returns {Promise<CryptoKey>} A `CryptoKey` containing a SHA-256 hash used to encrypt and decrypt strings.
  * @throws  {TypeError}          Thrown if `value` is invalid.
  */
 export async function createSymmetricCryptoKey(
