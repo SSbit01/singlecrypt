@@ -1,4 +1,4 @@
-# SingleCrypt
+# SingleCrypt Text
 
 > [!WARNING]  
 > This package uses [`Uint8Array.prototype.toBase64()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/toBase64) and [`Uint8Array.fromBase64()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/fromBase64), which, as of September 2025, are only supported by the latest versions of browsers and [Bun](https://bun.com/). See [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/toBase64#browser_compatibility) for compatibility.
@@ -69,7 +69,7 @@ import {
   createSymmetricKeyWithText,
   encryptSymmetricallyText,
   decryptSymmetricallyText
-} from "singlecrypt";
+} from "singlecrypt-text";
 
 
 const userCryptoKey = await createSymmetricKeyWithText(
@@ -99,7 +99,7 @@ import {
   createSymmetricKeyWithText,
   encryptSymmetricallyText,
   decryptSymmetricallyText
-} from "singlecrypt";
+} from "singlecrypt-text";
 
 
 const textEncoder = new TextEncoder();
