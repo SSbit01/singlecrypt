@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { createSymmetricCryptoKey, encryptSymmetrically, decryptSymmetrically } from "."
+import { createSymmetricKeyWithText, encryptSymmetricallyText, decryptSymmetricallyText } from "."
 
 
 function randomString(length = 32) {
@@ -9,21 +9,40 @@ function randomString(length = 32) {
 
 
 test("Generate a random symmetric CryptoKey", async() => {
-  const key = await createSymmetricCryptoKey(randomString())
+  const key = await createSymmetricKeyWithText(randomString())
   expect(key).toBeDefined()
 })
 
 
 test("Encrypt a random value", async() => {
-  const key = await createSymmetricCryptoKey(randomString())
-  expect(await encryptSymmetrically(randomString(), key)).toBeString()
+  const key = await createSymmetricKeyWithText(randomString())
+  expect(await encryptSymmetricallyText(randomString(), key)).toBeString()
 })
 
 
 test("Decrypt a random value", async() => {
-  const symCryptoKey = await createSymmetricCryptoKey(randomString())
+  const symCryptoKey = await createSymmetricKeyWithText(randomString())
   const randomValue = randomString()
-  const encrypted = await encryptSymmetrically(randomValue, symCryptoKey)
-  const decrypted = await decryptSymmetrically(encrypted, symCryptoKey)
+  const encrypted = await encryptSymmetricallyText(randomValue, symCryptoKey)
+  const decrypted = await decryptSymmetricallyText(encrypted, symCryptoKey)
   expect(randomValue === decrypted).toBeTrue()
+})
+
+
+test("Decrypt a random value with two different CryptoKey objects", async() => {
+  const randomKeyString = randomString()
+  const symCryptoKey = await createSymmetricKeyWithText(randomKeyString)
+  const symCryptoKey2 = await createSymmetricKeyWithText(randomKeyString)
+  const randomValue = randomString()
+  const encrypted = await encryptSymmetricallyText(randomValue, symCryptoKey)
+  const decrypted = await decryptSymmetricallyText(encrypted, symCryptoKey2)
+  expect(randomValue === decrypted).toBeTrue()
+})
+
+test("Check if encrypting and decrypting with different CryptoKey objects returns an error", async() => {
+  const symCryptoKey = await createSymmetricKeyWithText(randomString())
+  const symCryptoKey2 = await createSymmetricKeyWithText(randomString())
+  const randomValue = randomString()
+  const encrypted = await encryptSymmetricallyText(randomValue, symCryptoKey)
+  expect(async() => await decryptSymmetricallyText(encrypted, symCryptoKey2)).toThrowError()
 })

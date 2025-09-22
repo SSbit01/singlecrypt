@@ -9,20 +9,20 @@ const keyUsages = ["encrypt", "decrypt"]
  * Before encrypting and decrypting values, a symmetric `CryptoKey` must be created.
  * This method also converts your value key to a SHA-256 hash.
  * 
- * @param   {string}             value         - String key to be hashed. A 32-byte random string is recommended.
+ * @param   {string}             data          - String key to be hashed. A 32-byte high entropy string is recommended.
  * @param   {TextEncoder}        [textEncoder] - If you have an instance of a `TextEncoder`, you can reuse it.
  * @returns {Promise<CryptoKey>} A `CryptoKey` containing a SHA-256 hash used to encrypt and decrypt strings.
  * @throws  {TypeError}          Thrown if `value` is invalid.
  */
-export async function createSymmetricCryptoKey(
-  value,
+export async function createSymmetricKeyWithText(
+  data,
   textEncoder = new TextEncoder()
 ) {
 
   return (
     await crypto.subtle.importKey(
       "raw",
-      await crypto.subtle.digest("SHA-256", textEncoder.encode(value)),
+      await crypto.subtle.digest("SHA-256", textEncoder.encode(data)),
       encryptionAlgorithm,
       false,
       keyUsages
@@ -33,17 +33,16 @@ export async function createSymmetricCryptoKey(
 
 
 /**
- * Encrypts a value with a `CryptoKey` previously generated with `createSymmetricCryptoKey`.
+ * Encrypts a value with a `CryptoKey` previously generated with `createSymmetricKeyWithText`.
  * 
- * @param   {string}          value         - Value to be encrypted.
- * @param   {CryptoKey}       key           - The symmetric key generated with `createSymmetricCryptoKey`.
- * @param   {TextEncoder}     [textEncoder] - If you have an instance of a `TextEncoder`, you can reuse it.
+ * @param   {string}          value - String value to be encrypted.
+ * @param   {CryptoKey}       key   - Symmetric key generated with `createSymmetricKeyWithText`.
  * @returns {Promise<string>} The value encrypted and encoded as a Base64 string.
  * @throws  {DOMException}    Raised when:
  * - The provided key is not valid.
  * - The operation failed (e.g., AES-GCM plaintext longer than 2^39−256 bytes).
  */
-export async function encryptSymmetrically(
+export async function encryptSymmetricallyText(
   value,
   key,
   textEncoder = new TextEncoder()
@@ -66,10 +65,10 @@ export async function encryptSymmetrically(
 
 
 /**
- * Decrypts a value with a `CryptoKey` previously generated with `createSymmetricCryptoKey`.
+ * Decrypts a value with a `CryptoKey` previously generated with `createSymmetricKeyWithText`.
  * 
  * @param   {string}          value         - Encrypted value to be decrypted.
- * @param   {CryptoKey}       key           - The symmetric key used to encrypt the value.
+ * @param   {CryptoKey}       key           - Symmetric key used to encrypt the value.
  * @param   {TextDecoder}     [textDecoder] - If you have an instance of a `TextDecoder`, you can reuse it.
  * @returns {Promise<string>} The value decrypted.
  * @throws  {TypeError}       Thrown if `value` is not a string.
@@ -78,7 +77,7 @@ export async function encryptSymmetrically(
  * - The provided key is not valid.
  * - The operation failed.
  */
-export async function decryptSymmetrically(
+export async function decryptSymmetricallyText(
   value,
   key,
   textDecoder = new TextDecoder()

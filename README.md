@@ -14,12 +14,12 @@ AES-GCM is extremely fast on modern CPUs, which have dedicated hardware accelera
 Using `bun`:
 
 ```shell
-bun add singlecrypt
+bun add singlecrypt-text
 ```
 
 ## Methods
 
-#### `createSymmetricCryptoKey`
+#### `createSymmetricKeyWithText`
 
 Creates a symmetric `CryptoKey` object to be used in the following methods. This method also converts your value key to a SHA-256 hash. It takes two parameters:
 
@@ -30,24 +30,24 @@ Returns a `Promise<CryptoKey>` containing a SHA-256 hash used to encrypt and dec
 
 A `TypeError` may be thrown if there are problems with the string key.
 
-### `encryptSymmetrically`
+### `encryptSymmetricallyText`
 
 Encrypts a value with a symmetric `CryptoKey` previously generated. It takes three parameters:
 
 1. A string value to be encrypted.
-2. The symmetric key generated with `createSymmetricCryptoKey`.
+2. The symmetric key generated with `createSymmetricKeyWithText`.
 3. A `TextEncoder` instance, if you want to reuse it (optional).
 
 Returns a `Promise<string>` containing the encrypted value.
 
 A `DOMException` may be thrown if the key is invalid or if the operation failed (e.g., AES-GCM plaintext longer than 2^39−256 bytes).
 
-### `decryptSymmetrically`
+### `decryptSymmetricallyText`
 
 Decrypts a value with a symmetric `CryptoKey` previously generated. It takes three parameters:
 
 1. A string value to be decrypted.
-2. The symmetric key generated with `createSymmetricCryptoKey`.
+2. The symmetric key generated with `createSymmetricKeyWithText`.
 3. A `TextDecoder` instance, if you want to reuse it (optional).
 
 Returns a `Promise<string>` containing the decrypted value.
@@ -66,26 +66,26 @@ Let's say you have a user ID in a server and you want the server to encrypt and 
 
 ```typescript
 import {
-  createSymmetricCryptoKey,
-  encryptSymmetrically,
-  decryptSymmetrically
+  createSymmetricKeyWithText,
+  encryptSymmetricallyText,
+  decryptSymmetricallyText
 } from "singlecrypt";
 
 
-const userCryptoKey = await createSymmetricCryptoKey(
+const userCryptoKey = await createSymmetricKeyWithText(
   process.env.KEY_USER
 );
 
 
 export async function encryptUserId(value: string) {
-  return await encryptSymmetrically(
+  return await encryptSymmetricallyText(
     value,
     userCryptoKey
   );
 }
 
 export async function decryptUserId(value: string) {
-  return await decryptSymmetrically(
+  return await decryptSymmetricallyText(
     value,
     userCryptoKey
   );
@@ -96,23 +96,23 @@ Or you can reuse `TextEncoder` and `TextDecoder` instances for slightly better p
 
 ```typescript
 import {
-  createSymmetricCryptoKey,
-  encryptSymmetrically,
-  decryptSymmetrically
+  createSymmetricKeyWithText,
+  encryptSymmetricallyText,
+  decryptSymmetricallyText
 } from "singlecrypt";
 
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
 
-const userCryptoKey = await createSymmetricCryptoKey(
+const userCryptoKey = await createSymmetricKeyWithText(
   process.env.KEY_USER,
   textEncoder
 );
 
 
 export async function encryptUserId(value: string) {
-  return await encryptSymmetrically(
+  return await encryptSymmetricallyText(
     value,
     userCryptoKey,
     textEncoder
@@ -120,7 +120,7 @@ export async function encryptUserId(value: string) {
 }
 
 export async function decryptUserId(value: string) {
-  return await decryptSymmetrically(
+  return await decryptSymmetricallyText(
     value,
     userCryptoKey,
     textDecoder

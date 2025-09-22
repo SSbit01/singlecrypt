@@ -1,11 +1,11 @@
 {
-  "name": "singlecrypt",
+  "name": "singlecrypt-text",
   "version": "1.0.0",
   "author": "Stefan Samson <ss42701@outlook.com> (https://ssbit01.github.io/)",
-  "repository": "github:SSbit01/singlecrypt",
+  "repository": "github:SSbit01/singlecrypt-text",
   "main": "index.js",
   "bugs": {
-    "url": "https://github.com/SSbit01/singlecrypt/issues"
+    "url": "https://github.com/SSbit01/singlecrypt-text/issues"
   },
   "description": "A simple, secure and fast symmetric encryption library that makes use of AES-GCM.",
   "engines": {
@@ -15,7 +15,7 @@
     "index.js",
     "index.d.ts"
   ],
-  "homepage": "https://github.com/SSbit01/singlecrypt#readme",
+  "homepage": "https://github.com/SSbit01/singlecrypt-text#readme",
   "keywords": [
     "aes",
     "browser",
