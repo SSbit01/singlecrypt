@@ -88,9 +88,9 @@ export async function decryptSymmetricallyText(
   return (
     textDecoder.decode(
       await crypto.subtle.decrypt(
-        { name: encryptionAlgorithm, iv: valueInt8Arr.slice(0, ivBytesLength) },
+        { name: encryptionAlgorithm, iv: valueInt8Arr.subarray(0, ivBytesLength) },
         key,
-        valueInt8Arr.slice(ivBytesLength)
+        valueInt8Arr.subarray(ivBytesLength)
       )
     )
   )
