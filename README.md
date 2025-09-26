@@ -60,9 +60,9 @@ The following errors may be thrown:
 
 ## Example
 
-Let's say you have a user ID in a server and you want the server to encrypt and store the ID in a cookie.
+Let's say you have a session ID in a server and you want the server to encrypt and store the ID in a cookie.
 
-`./lib/user/crypto.ts`
+`./lib/session/crypto.ts`
 
 ```typescript
 import {
@@ -71,23 +71,25 @@ import {
   decryptSymmetricallyText
 } from "singlecrypt-text";
 
+import { getSessionEncryptionKey } from "./lib/crypto/session";
 
-const userCryptoKey = await createSymmetricKeyWithText(
-  process.env.KEY_USER
+
+const sessionCryptoKey = await createSymmetricKeyWithText(
+  await getSessionEncryptionKey()
 );
 
 
-export async function encryptUserId(value: string) {
+export async function encryptSessionId(value: string) {
   return await encryptSymmetricallyText(
     value,
-    userCryptoKey
+    sessionCryptoKey
   );
 }
 
-export async function decryptUserId(value: string) {
+export async function decryptSessionId(value: string) {
   return await decryptSymmetricallyText(
     value,
-    userCryptoKey
+    sessionCryptoKey
   );
 }
 ```
@@ -101,46 +103,48 @@ import {
   decryptSymmetricallyText
 } from "singlecrypt-text";
 
+import { getSessionEncryptionKey } from "./lib/crypto/session";
+
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
 
-const userCryptoKey = await createSymmetricKeyWithText(
-  process.env.KEY_USER,
+const sessionCryptoKey = await createSymmetricKeyWithText(
+  await getSessionEncryptionKey(),
   textEncoder
 );
 
 
-export async function encryptUserId(value: string) {
+export async function encryptSessionId(value: string) {
   return await encryptSymmetricallyText(
     value,
-    userCryptoKey,
+    sessionCryptoKey,
     textEncoder
   );
 }
 
-export async function decryptUserId(value: string) {
+export async function decryptSessionId(value: string) {
   return await decryptSymmetricallyText(
     value,
-    userCryptoKey,
+    sessionCryptoKey,
     textDecoder
   );
 }
 ```
 
-And now you can easily encrypt and decrypt user IDs:
+And now you can easily encrypt and decrypt session IDs:
 
 ```typescript
 // ...
-import { encryptUserId, decryptUserId } from "./lib/user/crypto";
+import { encryptSessionId, decryptSessionId } from "./lib/session/crypto";
 // ...
 
-const userId = await getUserIdFromDatabase();
-const encryptedId = await encryptUserId(userId);  // Now you can safely store it in an HttpOnly cookie
+const sessionId = await getSessionIdFromDatabase();
+const encryptedId = await encryptSessionId(sessionId);  // Now you can safely store it in an HttpOnly cookie
 // ...
-const decryptedId = await decryptUserId(encryptedId);
+const decryptedId = await decryptSessionId(encryptedId);
 // ...
-console.log(userId === decryptedId);  // True
+console.log(sessionId === decryptedId);  // True
 // ...
 ```
 
