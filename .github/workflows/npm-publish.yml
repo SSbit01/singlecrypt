@@ -1,24 +1,19 @@
 # This workflow will run tests using Bun and then publish a package to GitHub Packages when a release is created
 # For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
 
-name: NPM publish
+name: Publish Package
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "latest"
-      - run: bun ci
-      - run: bun test
-
-  publish-npm:
+  publish:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -28,6 +23,5 @@ jobs:
           bun-version: "latest"
           registry-url: https://registry.npmjs.org/
       - run: bun ci
+      - run: bun test
       - run: bun publish
-        env:
-          NPM_CONFIG_TOKEN: ${{secrets.NPM_TOKEN}}
