@@ -1,7 +1,9 @@
 const encryptionAlgorithm = "AES-GCM"
 const ivBytesLength = 12
 
-/** @type {KeyUsage[]} */
+/**
+ * @type {KeyUsage[]}
+ */
 const keyUsages = ["encrypt", "decrypt"]
 
 

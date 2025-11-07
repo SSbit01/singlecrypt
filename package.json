@@ -9,7 +9,9 @@
   },
   "description": "A simple, secure and fast symmetric encryption library that makes use of AES-GCM.",
   "engines": {
-    "bun": ">=1.1.22"
+    "bun": ">=1.1.22",
+    "deno": ">=2.5",
+    "node": ">=25.0.0"
   },
   "files": [
     "index.js",
@@ -43,7 +45,8 @@
   "scripts": {
     "test": "bun test",
     "build:types": "tsc",
-    "build": "bun build ./index.js --minify --outdir ./dist --entry-naming [dir]/[name].min.[ext]"
+    "build": "bun build ./index.js --minify --target browser --outdir ./dist --entry-naming [dir]/[name].min.[ext]",
+    "build:cjs": "bun build ./index.js --minify --format cjs --outdir ./dist --entry-naming [dir]/[name].node.min.[ext]"
   },
   "type": "module",
   "types": "index.d.ts",
