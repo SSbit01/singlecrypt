@@ -27,6 +27,6 @@ jobs:
       
       - name: Update npm
         run: npm install -g npm@latest
-      - run: npm ci
+      - run: bun install --frozen-lockfile
       - run: bun test
       - run: npm publish
